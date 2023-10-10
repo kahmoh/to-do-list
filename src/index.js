@@ -1,2 +1,4 @@
-import {toDoArray} from "./toDoPage";
+import {pages} from "./dom";
+import {toDos} from "./toDos";
 
+pages.initialPageLoad()
