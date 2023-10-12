@@ -12,8 +12,7 @@ const toDos = {
             if (toDoPage.validateFormData(toDoValues)){
                 const newToDo = this.toDo(...toDoValues,this.toDoArray.length)
                 this.toDoArray.push(newToDo)
-                storage.setToDos()
-                console.log(this.toDoArray)
+                storage.setToDoList()
                 pages.renderToDos()
             }
         }
