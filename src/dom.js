@@ -1,20 +1,13 @@
 import {toDos} from "./toDos";
+import {storage} from "./storage";
 
 const pages = {
-    contentContainer: document.getElementById('content'),
+    container: document.getElementById('content'),
     initialPageLoad: function () {
-        this.contentContainer.appendChild(toDoPage.renderPage())
+        toDoPage.renderPage()
+        storage.toDoStorage.initialiseToDoList()
+        toDoPage.renderToDos()
     },
-    toDoList: document.createElement('ul'),
-    renderToDos: function () {
-        this.toDoList.textContent = ''
-        toDos.toDoArray.forEach((toDo) => {
-            const toDoElement = document.createElement('li')
-            toDoElement.textContent = JSON.stringify(toDo)
-            this.toDoList.appendChild(toDoElement)
-        })
-        this.contentContainer.appendChild(this.toDoList)
-    }
 }
 
 const toDoPage = {
@@ -28,6 +21,7 @@ const toDoPage = {
     renderButton: function () {
         const newToDoButton = document.createElement('button')
         newToDoButton.textContent = 'Add to do'
+        newToDoButton.classList.add('to-do-button')
         this.addButtonListener(newToDoButton)
         return newToDoButton
     },
@@ -35,13 +29,12 @@ const toDoPage = {
         this.toDoForm.addEventListener('submit', (event) => {
             event.preventDefault()
             toDos.createToDo()
+            this.toDoModal.close()
         })
     },
     renderPage: function () {
-        const container = document.createElement('div')
-        container.appendChild(this.renderButton())
+        pages.container.appendChild(this.renderButton())
         this.addFormListener()
-        return container
     },
     getFormData: function () {
         const toDoData = new FormData(this.toDoForm)
@@ -59,6 +52,33 @@ const toDoPage = {
         }
         return true
     },
+    renderToDos: function () {
+        const toDoList = document.createElement('div')
+        toDoList.classList.add('to-do-list')
+        toDoList.innerHTML = ''
+        for (let i = 0; i < toDos.toDoArray.length; i++) {
+            const currentToDo = toDos.toDoArray[i]
+            const toDo = document.createElement('div')
+            const titleSection = document.createElement('div')
+            const toDoTitle = document.createElement('h1')
+            toDoTitle.textContent = currentToDo.title
+            titleSection.appendChild(toDoTitle)
+            const toDoDetails = document.createElement('div')
+            toDoDetails.classList.add('to-do-details')
+            const dueDate = document.createElement('p')
+            dueDate.textContent = `Due date: ${currentToDo.dueDate}`
+            const project = document.createElement('p')
+            project.textContent = `Project: ${currentToDo.project}`
+            const priority = `Priority: ${currentToDo.priority}`
+            toDoDetails.append(dueDate,project,priority)
+            toDo.append(titleSection,toDoDetails)
+            toDo.classList.add('to-do')
+            const toDoo = document.createElement('div')
+            toDoList.appendChild(toDoo)
+            toDoList.appendChild(toDo)
+        }
+        pages.container.appendChild(toDoList)
+    }
 }
 
 export {pages,toDoPage}

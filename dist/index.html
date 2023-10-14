@@ -8,18 +8,41 @@
     <title>Document</title>
 </head>
 <body>
-    <dialog id="to-do-modal">
-        <form id="to-do-form">
-            <input type="text" placeholder="title" name="to-do-title">
-            <input type="text" placeholder="description" name="to-do-description">
-            <input type="date" placeholder="due-date" name="to-do-due-date">
-<!--            <select name="to-do-project">-->
-<!--                <option value="project"></option>-->
-<!--            </select>-->
-            <button type="submit" name="to-do-submit"></button>
-        </form>
-    </dialog>
-    <div id="content"></div>
+<div id="content">
+    <div id="middle-container">
+        <dialog id="to-do-modal">
+            <form id="to-do-form">
+                <p>Add ToDo</p>
+                <input type="text" placeholder="title" name="to-do-title">
+                <input type="text" placeholder="description" name="to-do-description">
+                <input type="date" placeholder="due-date" name="to-do-due-date">
+                <select name="to-do-project">
+                    <option value="project">project</option>
+                </select>
+                <select name="to-do-priority">
+                    <option value="high">high</option>
+                    <option value="medium">medium</option>
+                    <option value="low">low</option>
+                </select>
+                <button type="submit" name="to-do-submit">Confirm</button>
+            </form>
+        </dialog>
+        <dialog id="project-modal">
+            <form id="project-form">
+                <p>Add project</p>
+                <input type="text" placeholder="title" name="project-title">
+                <input type="text" placeholder="description" name="project-description">
+                <input type="date" placeholder="due-date" name="project-due-date">
+                <select name="project-priority">
+                    <option value="high">high</option>
+                    <option value="medium">medium</option>
+                    <option value="low">low</option>
+                </select>
+                <button type="submit" name="project-submit">Confirm</button>
+            </form>
+        </dialog>
+    </div>
+    </div>
     <script src="./main.js"></script>
 </body>
 </html>

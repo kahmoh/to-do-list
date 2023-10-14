@@ -2,18 +2,18 @@ import {pages, toDoPage} from "./dom";
 import {storage} from "./storage";
 
 const toDos = {
-    toDoArray: storage.getToDoList(),
+    toDoArray: storage.toDoStorage.getToDoList(),
     toDoForm: document.getElementById('to-do-form'),
-    toDo: (title, description, dueDate, dataAttribute) => {
-        return {title, description, dueDate, dataAttribute}
+    toDo: (title, description, dueDate, project, priority, dataAttribute) => {
+        return {title, description, dueDate, project, priority, dataAttribute}
     },
     createToDo: function () {
         const toDoValues = toDoPage.getFormData().dataValues
             if (toDoPage.validateFormData(toDoValues)){
                 const newToDo = this.toDo(...toDoValues,this.toDoArray.length)
                 this.toDoArray.push(newToDo)
-                storage.setToDoList()
-                pages.renderToDos()
+                storage.toDoStorage.setToDoList()
+                toDoPage.renderToDos()
             }
         }
 }
