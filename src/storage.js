@@ -1,13 +1,8 @@
 import {toDos} from "./toDos";
+import {projects} from "./projects";
 
 const storage = {
     toDoStorage: {
-        initialiseToDoList: function () {
-            if (this.getToDoList() !== null){
-            }else {
-                localStorage.setItem('toDoList',JSON.stringify([]))
-            }
-        },
         setToDoList: function () {
             localStorage.setItem('toDoList',JSON.stringify(toDos.toDoArray))
         },
@@ -17,10 +12,10 @@ const storage = {
     },
     projectStorage: {
         setProjectList: function () {
-            localStorage.setItem('toDoList',JSON.stringify(toDos.toDoArray))
+            localStorage.setItem('projectList',JSON.stringify(projects.projectsArray))
         },
         getProjectList: function () {
-            return JSON.parse(localStorage.getItem('toDoList'))
+            return JSON.parse(localStorage.getItem('projectList'))
         }
     },
 }

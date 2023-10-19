@@ -1,40 +1,57 @@
 import {toDos} from "./toDos";
-import {storage} from "./storage";
+import {projects} from "./projects";
 
 const pages = {
     container: document.getElementById('content'),
+    renderHeader: function () {
+        const headerContainer = document.createElement('div')
+        const toDoPageLink = document.createElement('button')
+        toDoPageLink.textContent = 'To-do list'
+        toDoPageLink.addEventListener('click', () => {toDoPage.renderPage()})
+        const projectPageLink = document.createElement('button')
+        projectPageLink.textContent = 'Projects'
+        projectPageLink.addEventListener('click', () => {projectPage.renderPage()})
+        headerContainer.append(toDoPageLink,projectPageLink)
+        return headerContainer
+    },
     initialPageLoad: function () {
         toDoPage.renderPage()
-        storage.toDoStorage.initialiseToDoList()
-        toDoPage.renderToDos()
     },
 }
 
 const toDoPage = {
     toDoForm: document.getElementById('to-do-form'),
     toDoModal: document.getElementById('to-do-modal'),
-    addButtonListener: function (button) {
-        button.addEventListener('click', () => {
-            this.toDoModal.show()
-        })
-    },
+    toDoList: document.createElement('div'),
+    formHasListener: false,
     renderButton: function () {
         const newToDoButton = document.createElement('button')
         newToDoButton.textContent = 'Add to do'
         newToDoButton.classList.add('to-do-button')
-        this.addButtonListener(newToDoButton)
+        newToDoButton.addEventListener('click', () => {
+            this.toDoModal.show()
+        })
         return newToDoButton
     },
     addFormListener: function () {
-        this.toDoForm.addEventListener('submit', (event) => {
+        this.toDoForm.addEventListener('submit',  (event) => {
             event.preventDefault()
             toDos.createToDo()
-            this.toDoModal.close()
+            this.renderToDos()
         })
+        this.formHasListener = true;
     },
     renderPage: function () {
+        if (projectPage.projectModal.open){
+            projectPage.projectModal.close()
+        }
+        pages.container.innerHTML = ''
+        pages.container.appendChild(pages.renderHeader())
         pages.container.appendChild(this.renderButton())
-        this.addFormListener()
+        pages.container.appendChild(this.renderToDos())
+        if (!this.formHasListener){
+            this.addFormListener()
+        }
     },
     getFormData: function () {
         const toDoData = new FormData(this.toDoForm)
@@ -50,12 +67,12 @@ const toDoPage = {
                 return
             }
         }
+        this.toDoModal.close()
         return true
     },
     renderToDos: function () {
-        const toDoList = document.createElement('div')
-        toDoList.classList.add('to-do-list')
-        toDoList.innerHTML = ''
+        this.toDoList.classList.add('to-do-list')
+        this.toDoList.innerHTML = ''
         for (let i = 0; i < toDos.toDoArray.length; i++) {
             const currentToDo = toDos.toDoArray[i]
             const toDo = document.createElement('div')
@@ -73,12 +90,59 @@ const toDoPage = {
             toDoDetails.append(dueDate,project,priority)
             toDo.append(titleSection,toDoDetails)
             toDo.classList.add('to-do')
-            const toDoo = document.createElement('div')
-            toDoList.appendChild(toDoo)
-            toDoList.appendChild(toDo)
+            this.toDoList.appendChild(toDo)
         }
-        pages.container.appendChild(toDoList)
+        return this.toDoList
     }
 }
 
-export {pages,toDoPage}
+const projectPage = {
+    projectModal: document.getElementById('project-modal'),
+    projectForm: document.getElementById('project-form'),
+    formHasListener: false,
+    addFormListener: function () {
+        this.projectForm.addEventListener('submit', (event) => {
+            event.preventDefault()
+            projects.createProject()
+        })
+        this.formHasListener = true;
+    },
+    renderPage: function () {
+        if (projectPage.projectModal.open){
+            projectPage.projectModal.close()
+        }
+        pages.container.innerHTML = ''
+        pages.container.appendChild(pages.renderHeader())
+        pages.container.appendChild(this.renderButton())
+        if (!this.formHasListener){
+            this.addFormListener()
+        }
+    },
+    renderButton: function () {
+        const newProjectButton = document.createElement('button')
+        newProjectButton.textContent = 'Add Project'
+        newProjectButton.addEventListener('click', () => {
+            this.projectModal.show()
+        })
+        return newProjectButton
+    },
+    getFormData: function () {
+        const projectData = new FormData(this.projectForm)
+        const dataValues = Array.from(projectData.values())
+        return {dataValues}
+    },
+    validateFormData: function (array){
+        let alerted = false
+        for (let i = 0; i < array.length; i++ ) {
+            if (array[i] === '' && alerted === false) {
+                alert(`${array[i]} field empty`)
+                alerted = true
+                return
+            }
+        }
+        this.projectModal.close()
+        return true
+    },
+}
+
+export {pages,toDoPage,projectPage}
