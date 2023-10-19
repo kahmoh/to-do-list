@@ -11,7 +11,7 @@ const projects = {
         if (projectPage.validateFormData(projectValues)){
             const newProject = this.project(...projectValues,this.projectsArray.length)
             this.projectsArray.push(newProject)
-            storage.projectStorage.setProjectList()
+            storage.projectStorage.setProjectList(this.projectsArray)
             console.log(newProject)
         }
     }

@@ -1,5 +1,4 @@
 import {toDos} from "./toDos";
-import {projects} from "./projects";
 
 const storage = {
     toDoStorage: {
@@ -11,8 +10,8 @@ const storage = {
         }
     },
     projectStorage: {
-        setProjectList: function () {
-            localStorage.setItem('projectList',JSON.stringify(projects.projectsArray))
+        setProjectList: function (array) {
+            localStorage.setItem('projectList',JSON.stringify(array))
         },
         getProjectList: function () {
             return JSON.parse(localStorage.getItem('projectList'))
