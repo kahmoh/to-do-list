@@ -87,7 +87,13 @@ const toDoPage = {
             const project = document.createElement('p')
             project.textContent = `Project: ${currentToDo.project}`
             const priority = `Priority: ${currentToDo.priority}`
-            toDoDetails.append(dueDate,project,priority)
+            const deleteButton = document.createElement('button')
+            deleteButton.textContent = 'x'
+            deleteButton.addEventListener('click',() => {
+                toDos.deleteToDo(i)
+                this.renderToDos()
+            })
+            toDoDetails.append(dueDate,project,priority,deleteButton)
             toDo.append(titleSection,toDoDetails)
             toDo.classList.add('to-do')
             this.toDoList.appendChild(toDo)

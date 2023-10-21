@@ -13,6 +13,10 @@ const toDos = {
             this.toDoArray.push(newToDo)
             storage.toDoStorage.setToDoList()
         }
+    },
+    deleteToDo: function (index) {
+        this.toDoArray.splice(index,1)
+        storage.toDoStorage.setToDoList()
     }
 }
 
