@@ -16,7 +16,7 @@ const toDos = {
     },
     deleteToDo: function (index) {
         this.toDoArray.splice(index,1)
-        storage.toDoStorage.setToDoList()
+        storage.toDoStorage.setToDoList(this.toDoArray)
     }
 }
 

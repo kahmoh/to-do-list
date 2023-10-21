@@ -1,4 +1,4 @@
-import {pages,projectPage} from "./dom";
+import {projectPage} from "./dom";
 import {storage} from "./storage";
 
 const projects = {
@@ -12,7 +12,6 @@ const projects = {
             const newProject = this.project(...projectValues,this.projectsArray.length)
             this.projectsArray.push(newProject)
             storage.projectStorage.setProjectList(this.projectsArray)
-            console.log(newProject)
         }
     }
 }
