@@ -52,6 +52,15 @@ const toDoPage = {
         if (!this.formHasListener){
             this.addFormListener()
         }
+        this.populateProjectDropdown()
+    },
+    populateProjectDropdown: function () {
+        const dropDown = document.getElementById('projects-select')
+        projects.projectsArray.forEach((project) => {
+            const option = document.createElement('option')
+            option.textContent = project.title
+            dropDown.add(option)
+        })
     },
     getFormData: function () {
         const toDoData = new FormData(this.toDoForm)
@@ -105,11 +114,13 @@ const toDoPage = {
 const projectPage = {
     projectModal: document.getElementById('project-modal'),
     projectForm: document.getElementById('project-form'),
+    projectList: document.createElement('div'),
     formHasListener: false,
     addFormListener: function () {
         this.projectForm.addEventListener('submit', (event) => {
             event.preventDefault()
             projects.createProject()
+            this.renderProjects()
         })
         this.formHasListener = true;
     },
@@ -120,6 +131,8 @@ const projectPage = {
         pages.container.innerHTML = ''
         pages.container.appendChild(pages.renderHeader())
         pages.container.appendChild(this.renderButton())
+        this.renderProjects()
+        pages.container.appendChild(this.projectList)
         if (!this.formHasListener){
             this.addFormListener()
         }
@@ -149,6 +162,22 @@ const projectPage = {
         this.projectModal.close()
         return true
     },
+    renderProjects: function () {
+        this.projectList.innerHTML = ''
+        for(let i = 0; i < projects.projectsArray.length; i++){
+            const element = document.createElement('div')
+            const text = document.createElement('p')
+            text.textContent = JSON.stringify(projects.projectsArray[i])
+            const deleteButton = document.createElement('button')
+            deleteButton.textContent = 'x'
+            deleteButton.addEventListener('click', () => {
+                projects.deleteProject(i)
+                this.renderProjects()
+            })
+            element.append(text,deleteButton)
+            this.projectList.append(element)
+        }
+    }
 }
 
 export {pages,toDoPage,projectPage}

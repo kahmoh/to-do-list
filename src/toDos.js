@@ -11,7 +11,7 @@ const toDos = {
         if (toDoPage.validateFormData(toDoValues)){
             const newToDo = this.toDo(...toDoValues,this.toDoArray.length)
             this.toDoArray.push(newToDo)
-            storage.toDoStorage.setToDoList()
+            storage.toDoStorage.setToDoList(this.toDoArray)
         }
     },
     deleteToDo: function (index) {

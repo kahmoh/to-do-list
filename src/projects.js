@@ -3,8 +3,8 @@ import {storage} from "./storage";
 
 const projects = {
     projectsArray: (storage.projectStorage.getProjectList() || []),
-    project: (title,description,dueDate,toDos) => {
-        return {title,description,dueDate,toDos}
+    project: (title,description,dueDate,priority,toDos) => {
+        return {title,description,dueDate,priority,toDos}
     },
     createProject: function () {
         const projectValues = projectPage.getFormData().dataValues
@@ -13,6 +13,10 @@ const projects = {
             this.projectsArray.push(newProject)
             storage.projectStorage.setProjectList(this.projectsArray)
         }
+    },
+    deleteProject: function (index) {
+        this.projectsArray.splice(index,1)
+        storage.projectStorage.setProjectList(this.projectsArray)
     }
 }
 
