@@ -52,15 +52,6 @@ const toDoPage = {
         if (!this.formHasListener){
             this.addFormListener()
         }
-        this.populateProjectDropdown()
-    },
-    populateProjectDropdown: function () {
-        const dropDown = document.getElementById('projects-select')
-        projects.projectsArray.forEach((project) => {
-            const option = document.createElement('option')
-            option.textContent = project.title
-            dropDown.add(option)
-        })
     },
     getFormData: function () {
         const toDoData = new FormData(this.toDoForm)

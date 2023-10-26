@@ -1,5 +1,6 @@
 import {pages, toDoPage} from "./dom";
 import {storage} from "./storage";
+import {projects} from "./projects";
 
 const toDos = {
     toDoArray: (storage.toDoStorage.getToDoList() || []),
