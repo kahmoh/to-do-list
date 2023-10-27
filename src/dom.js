@@ -1,5 +1,6 @@
 import {toDos} from "./toDos";
 import {projects} from "./projects";
+import {storage} from "./storage";
 
 const pages = {
     container: document.getElementById('content'),
@@ -36,7 +37,7 @@ const toDoPage = {
     addFormListener: function () {
         this.toDoForm.addEventListener('submit',  (event) => {
             event.preventDefault()
-            toDos.createToDo()
+            toDos.createToDo(toDos.toDoArray)
             this.renderToDos()
         })
         this.formHasListener = true;
@@ -89,7 +90,8 @@ const toDoPage = {
             const deleteButton = document.createElement('button')
             deleteButton.textContent = 'x'
             deleteButton.addEventListener('click',() => {
-                toDos.deleteToDo(i)
+                toDos.deleteToDo(i,toDos.toDoArray)
+                storage.toDoStorage.setToDoList(this.toDoArray)
                 this.renderToDos()
             })
             toDoDetails.append(dueDate,priority,deleteButton)
@@ -155,17 +157,28 @@ const projectPage = {
     renderProjects: function () {
         this.projectList.innerHTML = ''
         for(let i = 0; i < projects.projectsArray.length; i++){
-            const element = document.createElement('div')
-            const text = document.createElement('p')
-            text.textContent = JSON.stringify(projects.projectsArray[i])
+            const currentProject = projects.projectsArray[i]
+            const project  = document.createElement('div')
+            project.setAttribute('id',project.dataAttribute)
+            const title = document.createElement('h1')
+            title.textContent = currentProject.title
+            const description = document.createElement('p')
+            description.textContent = currentProject.description
+            const dueDate = document.createElement('p')
+            dueDate.textContent = currentProject.dueDate
+            const priority = document.createElement('p')
+            priority.textContent = currentProject.priority
+            const projectDetails = document.createElement('div')
+            projectDetails.append(description,dueDate,priority)
             const deleteButton = document.createElement('button')
             deleteButton.textContent = 'x'
             deleteButton.addEventListener('click', () => {
                 projects.deleteProject(i)
                 this.renderProjects()
             })
-            element.append(text,deleteButton)
-            this.projectList.append(element)
+            project.append(title,projectDetails,deleteButton)
+            project.classList.add('to-do')
+            this.projectList.append(project)
         }
     }
 }

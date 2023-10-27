@@ -6,23 +6,22 @@ const toDos = {
     toDo: (title, description, dueDate, priority, dataAttribute) => {
         return {title, description, dueDate, priority, dataAttribute}
     },
-    createToDo: function () {
+    createToDo: function (array) {
         const toDoValues = toDoPage.getFormData().dataValues
         if (toDoPage.validateFormData(toDoValues)){
-            const newToDo = this.toDo(...toDoValues,this.toDoArray.length)
-            this.toDoArray.push(newToDo)
+            const newToDo = this.toDo(...toDoValues,array.length)
+            array.push(newToDo)
             storage.toDoStorage.setToDoList(this.toDoArray)
         }
     },
-    setDataAttribute: function () {
-        for (let i = 0; i < this.toDoArray.length; i++){
-            this.toDoArray[i].dataAttribute = i
+    setDataAttribute: function (array) {
+        for (let i = 0; i < array.length; i++){
+            array[i].dataAttribute = i
         }
     },
-    deleteToDo: function (index) {
-        this.toDoArray.splice(index,1)
-        this.setDataAttribute()
-        storage.toDoStorage.setToDoList(this.toDoArray)
+    deleteToDo: function (index,array) {
+        array.splice(index,1)
+        this.setDataAttribute(this.toDoArray)
     }
 }
 
