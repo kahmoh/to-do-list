@@ -1,11 +1,10 @@
 import {pages, toDoPage} from "./dom";
 import {storage} from "./storage";
-import {projects} from "./projects";
 
 const toDos = {
     toDoArray: (storage.toDoStorage.getToDoList() || []),
-    toDo: (title, description, dueDate, project, priority, dataAttribute) => {
-        return {title, description, dueDate, project, priority, dataAttribute}
+    toDo: (title, description, dueDate, priority, dataAttribute) => {
+        return {title, description, dueDate, priority, dataAttribute}
     },
     createToDo: function () {
         const toDoValues = toDoPage.getFormData().dataValues
@@ -15,8 +14,14 @@ const toDos = {
             storage.toDoStorage.setToDoList(this.toDoArray)
         }
     },
+    setDataAttribute: function () {
+        for (let i = 0; i < this.toDoArray.length; i++){
+            this.toDoArray[i].dataAttribute = i
+        }
+    },
     deleteToDo: function (index) {
         this.toDoArray.splice(index,1)
+        this.setDataAttribute()
         storage.toDoStorage.setToDoList(this.toDoArray)
     }
 }

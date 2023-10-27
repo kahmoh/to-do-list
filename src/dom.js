@@ -76,6 +76,7 @@ const toDoPage = {
         for (let i = 0; i < toDos.toDoArray.length; i++) {
             const currentToDo = toDos.toDoArray[i]
             const toDo = document.createElement('div')
+            toDo.setAttribute('id',currentToDo.dataAttribute)
             const titleSection = document.createElement('div')
             const toDoTitle = document.createElement('h1')
             toDoTitle.textContent = currentToDo.title
@@ -84,8 +85,6 @@ const toDoPage = {
             toDoDetails.classList.add('to-do-details')
             const dueDate = document.createElement('p')
             dueDate.textContent = `Due date: ${currentToDo.dueDate}`
-            const project = document.createElement('p')
-            project.textContent = `Project: ${currentToDo.project}`
             const priority = `Priority: ${currentToDo.priority}`
             const deleteButton = document.createElement('button')
             deleteButton.textContent = 'x'
@@ -93,7 +92,7 @@ const toDoPage = {
                 toDos.deleteToDo(i)
                 this.renderToDos()
             })
-            toDoDetails.append(dueDate,project,priority,deleteButton)
+            toDoDetails.append(dueDate,priority,deleteButton)
             toDo.append(titleSection,toDoDetails)
             toDo.classList.add('to-do')
             this.toDoList.appendChild(toDo)
