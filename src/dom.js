@@ -3,15 +3,22 @@ import {projects} from "./projects";
 import {storage} from "./storage";
 
 const pages = {
+    currentPage: null,
     container: document.getElementById('content'),
     renderHeader: function () {
         const headerContainer = document.createElement('div')
         const toDoPageLink = document.createElement('button')
         toDoPageLink.textContent = 'To-do list'
-        toDoPageLink.addEventListener('click', () => {toDoPage.renderPage()})
+        toDoPageLink.addEventListener('click', () => {
+            toDoPage.renderPage()
+            this.currentPage = toDoPage;
+        })
         const projectPageLink = document.createElement('button')
         projectPageLink.textContent = 'Projects'
-        projectPageLink.addEventListener('click', () => {projectPage.renderPage()})
+        projectPageLink.addEventListener('click', () => {
+            projectPage.renderPage()
+            this.currentPage = projectPage
+        })
         headerContainer.append(toDoPageLink,projectPageLink)
         return headerContainer
     },
@@ -37,7 +44,12 @@ const toDoPage = {
     addFormListener: function () {
         this.toDoForm.addEventListener('submit',  (event) => {
             event.preventDefault()
-            toDos.createToDo(toDos.toDoArray)
+            if (pages.currentPage === toDoPage) {
+                toDos.createToDo(toDos.toDoArray)
+            }else if (pages.currentPage === projectPage){
+                projects.addToDo()
+                projectPage.renderSingleProject()
+            }
             this.renderToDos()
         })
         this.formHasListener = true;
@@ -159,7 +171,7 @@ const projectPage = {
         for(let i = 0; i < projects.projectsArray.length; i++){
             const currentProject = projects.projectsArray[i]
             const project  = document.createElement('div')
-            project.setAttribute('id',project.dataAttribute)
+            project.id = currentProject.dataAttribute;
             const title = document.createElement('h1')
             title.textContent = currentProject.title
             const description = document.createElement('p')
@@ -176,10 +188,38 @@ const projectPage = {
                 projects.deleteProject(i)
                 this.renderProjects()
             })
+            project.addEventListener('click', (event) => {
+                this.expandProject(project)
+            })
             project.append(title,projectDetails,deleteButton)
             project.classList.add('to-do')
             this.projectList.append(project)
         }
+    },
+    expandProject: function (target) {
+        for (let i = 0; i < projects.projectsArray.length; i++){
+            if (target.id == projects.projectsArray[i].dataAttribute){
+                pages.container.innerHTML = ''
+                const currentProject = projects.projectsArray[i]
+                const addToDoButton = document.createElement('btn')
+                addToDoButton.textContent = 'Add to-do'
+                addToDoButton.addEventListener('click', () => {
+                    toDoPage.toDoModal.show()
+                })
+                pages.container.append(JSON.stringify(currentProject),addToDoButton)
+                projects.setCurrentProject(currentProject)
+            }
+        }
+    },
+    renderSingleProject: function () {
+        pages.container.innerHTML = ''
+        const currentProject = projects.currentProject
+        const addToDoButton = document.createElement('btn')
+        addToDoButton.textContent = 'Add to-do'
+        addToDoButton.addEventListener('click', () => {
+            toDoPage.toDoModal.show()
+        })
+        pages.container.append(JSON.stringify(currentProject),addToDoButton)
     }
 }
 

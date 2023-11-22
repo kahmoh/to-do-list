@@ -1,7 +1,9 @@
 import {projectPage} from "./dom";
 import {storage} from "./storage";
+import {toDos} from "./toDos";
 
 const projects = {
+    currentProject: null,
     projectsArray: (storage.projectStorage.getProjectList() || []),
     project: (title,description,dueDate,priority,dataAttribute,toDos) => {
         return {title,description,dueDate,priority,dataAttribute,toDos}
@@ -18,6 +20,18 @@ const projects = {
         this.projectsArray.splice(index,1)
         storage.projectStorage.setProjectList(this.projectsArray)
     },
+    setCurrentProject: function (project) {
+        projects.currentProject = project;
+        console.log(this.currentProject.toDos)
+    },
+    addToDo: function () {
+        const currentProjectArray = this.currentProject.toDos
+        console.log('stuff')
+        toDos.createToDo(currentProjectArray)
+        this.projectsArray.splice(projects.currentProject,1,this.currentProject)
+        storage.projectStorage.setProjectList(this.projectsArray)
+
+    }
 }
 
 export {projects}
