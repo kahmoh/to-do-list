@@ -2,6 +2,7 @@ import {pages, toDoPage} from "./dom";
 import {storage} from "./storage";
 
 const toDos = {
+    currentToDo: null,
     toDoArray: (storage.toDoStorage.getToDoList() || []),
     toDo: (title, description, dueDate, priority, dataAttribute) => {
         return {title, description, dueDate, priority, dataAttribute}

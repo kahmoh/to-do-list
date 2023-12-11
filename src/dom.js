@@ -189,20 +189,11 @@ const projectPage = {
                 this.renderProjects()
             })
             project.addEventListener('click', (event) => {
-                this.expandProject(project)
+                projects.setCurrentProject(project.id)
             })
             project.append(title,projectDetails,deleteButton)
             project.classList.add('to-do')
             this.projectList.append(project)
-        }
-    },
-    expandProject: function (target) {
-        for (let i = 0; i < projects.projectsArray.length; i++){
-            if (target.id == projects.projectsArray[i].dataAttribute){
-                const currentProject = projects.projectsArray[i]
-                projects.setCurrentProject(currentProject)
-                this.renderSingleProject()
-            }
         }
     },
     renderSingleProject: function () {

@@ -20,9 +20,13 @@ const projects = {
         this.projectsArray.splice(index,1)
         storage.projectStorage.setProjectList(this.projectsArray)
     },
-    setCurrentProject: function (project) {
-        projects.currentProject = project;
-        console.log(this.currentProject.toDos)
+    setCurrentProject: function (projectId) {
+        for (let i = 0; i < projects.projectsArray.length; i++){
+            if (projectId == projects.projectsArray[i].dataAttribute){
+                this.currentProject = this.projectsArray[i]
+                projectPage.renderSingleProject()
+            }
+        }
     },
     addToDo: function () {
         const currentProjectArray = this.currentProject.toDos
