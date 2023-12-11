@@ -199,27 +199,40 @@ const projectPage = {
     expandProject: function (target) {
         for (let i = 0; i < projects.projectsArray.length; i++){
             if (target.id == projects.projectsArray[i].dataAttribute){
-                pages.container.innerHTML = ''
                 const currentProject = projects.projectsArray[i]
-                const addToDoButton = document.createElement('btn')
-                addToDoButton.textContent = 'Add to-do'
-                addToDoButton.addEventListener('click', () => {
-                    toDoPage.toDoModal.show()
-                })
-                pages.container.append(JSON.stringify(currentProject),addToDoButton)
                 projects.setCurrentProject(currentProject)
+                this.renderSingleProject()
             }
         }
     },
     renderSingleProject: function () {
         pages.container.innerHTML = ''
         const currentProject = projects.currentProject
+        const projectElement = document.createElement('div')
         const addToDoButton = document.createElement('btn')
         addToDoButton.textContent = 'Add to-do'
         addToDoButton.addEventListener('click', () => {
             toDoPage.toDoModal.show()
         })
-        pages.container.append(JSON.stringify(currentProject),addToDoButton)
+        const toDoContainer = document.createElement('ul')
+        currentProject.toDos.forEach((toDo) => {
+            const toDoElement  = document.createElement('div')
+            toDoElement.id = toDo.dataAttribute
+            toDoElement.textContent = JSON.stringify(toDo)
+            const deleteButton = document.createElement('button')
+            deleteButton.textContent = 'delete'
+            deleteButton.setAttribute('id',toDo.dataAttribute)
+            deleteButton.addEventListener('click', () => {
+                projects.deleteToDo(deleteButton.id)
+                this.renderSingleProject()
+            })
+            toDoElement.appendChild(deleteButton)
+            toDoContainer.append(toDoElement)
+        })
+        projectElement.append(
+            currentProject.title,currentProject.dueDate,currentProject.priority,addToDoButton,toDoContainer
+        )
+        pages.container.appendChild(projectElement)
     }
 }
 

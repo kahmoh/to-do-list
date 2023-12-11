@@ -1,4 +1,4 @@
-import {projectPage} from "./dom";
+import {pages, projectPage} from "./dom";
 import {storage} from "./storage";
 import {toDos} from "./toDos";
 
@@ -26,11 +26,20 @@ const projects = {
     },
     addToDo: function () {
         const currentProjectArray = this.currentProject.toDos
-        console.log('stuff')
         toDos.createToDo(currentProjectArray)
-        this.projectsArray.splice(projects.currentProject,1,this.currentProject)
+        this.projectsArray.splice(projects.currentProject,1)
         storage.projectStorage.setProjectList(this.projectsArray)
-
+    },
+    setDataAttribute: function (array) {
+        for (let i = 0; i < array.length; i++){
+            array[i].dataAttribute = i
+        }
+    },
+    deleteToDo: function (index) {
+        this.currentProject.toDos.splice(index,1)
+        this.setDataAttribute(this.currentProject.toDos)
+        this.projectsArray.splice(this.currentProject.dataAttribute,1,this.currentProject)
+        storage.projectStorage.setProjectList(this.projectsArray)
     }
 }
 
