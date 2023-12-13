@@ -23,6 +23,23 @@ const toDos = {
     deleteToDo: function (index,array) {
         array.splice(index,1)
         this.setDataAttribute(this.toDoArray)
+    },
+    setCurrentToDo: function (toDoId) {
+        for(let i = 0; i < this.toDoArray.length; i++) {
+            if (toDoId == this.toDoArray[i].dataAttribute){
+                this.currentToDo = this.toDoArray[i]
+                toDoPage.renderSingleToDo()
+            }
+        }
+    },
+    editToDo: function () {
+        const toDoValues = toDoPage.getFormData().dataValues
+        if (toDoPage.validateFormData(toDoValues)){
+            const toDo = this.toDo(...toDoValues,this.currentToDo.dataAttribute)
+            this.toDoArray.splice(this.currentToDo.dataAttribute,1,toDo)
+            this.currentToDo = this.toDoArray[this.currentToDo.dataAttribute]
+            storage.toDoStorage.setToDoList(this.toDoArray)
+        }
     }
 }
 

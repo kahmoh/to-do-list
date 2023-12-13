@@ -106,12 +106,28 @@ const toDoPage = {
                 storage.toDoStorage.setToDoList(this.toDoArray)
                 this.renderToDos()
             })
+            toDo.addEventListener('click', () => {
+                toDos.setCurrentToDo(toDo.id)
+            })
             toDoDetails.append(dueDate,priority,deleteButton)
             toDo.append(titleSection,toDoDetails)
             toDo.classList.add('to-do')
             this.toDoList.appendChild(toDo)
         }
         return this.toDoList
+    },
+    renderSingleToDo: function () {
+        pages.container.innerHTML = ''
+        const editButton = document.createElement('button')
+        editButton.textContent = 'edit'
+        editButton.addEventListener('click',() => {
+            this.toDoModal.show()
+        })
+        this.toDoForm.addEventListener('submit', () => {
+            toDos.editToDo()
+            this.renderSingleToDo()
+        })
+        pages.container.append(JSON.stringify(toDos.currentToDo),editButton)
     }
 }
 
