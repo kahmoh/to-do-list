@@ -9,8 +9,8 @@ const projects = {
         return {title,description,dueDate,priority,dataAttribute,toDos}
     },
     createProject: function () {
-        const projectValues = projectPage.getFormData().dataValues
-        if (projectPage.validateFormData(projectValues)){
+        const projectValues = projectPage.getProjectFormData().dataValues
+        if (projectPage.validateProjectFormData(projectValues)){
             const newProject = this.project(...projectValues,this.projectsArray.length,[])
             this.projectsArray.push(newProject)
             storage.projectStorage.setProjectList(this.projectsArray)

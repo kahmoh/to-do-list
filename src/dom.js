@@ -16,7 +16,7 @@ const pages = {
         const projectPageLink = document.createElement('button')
         projectPageLink.textContent = 'Projects'
         projectPageLink.addEventListener('click', () => {
-            projectPage.renderPage()
+            projectPage.renderProjectPage()
             this.currentPage = projectPage
         })
         headerContainer.append(toDoPageLink,projectPageLink)
@@ -130,29 +130,29 @@ const projectPage = {
     projectModal: document.getElementById('project-modal'),
     projectForm: document.getElementById('project-form'),
     projectList: document.createElement('div'),
-    formHasListener: false,
-    addFormListener: function () {
+    projectFormHasListener: false,
+    addProjectFormListener: function () {
         this.projectForm.addEventListener('submit', (event) => {
             event.preventDefault()
             projects.createProject()
             this.renderProjects()
         })
-        this.formHasListener = true;
+        this.projectFormHasListener = true;
     },
-    renderPage: function () {
+    renderProjectPage: function () {
         if (projectPage.projectModal.open){
             projectPage.projectModal.close()
         }
         pages.container.innerHTML = ''
         pages.container.appendChild(pages.renderHeader())
-        pages.container.appendChild(this.renderButton())
+        pages.container.appendChild(this.renderAddProjectButton())
         this.renderProjects()
         pages.container.appendChild(this.projectList)
-        if (!this.formHasListener){
-            this.addFormListener()
+        if (!this.projectFormHasListener){
+            this.addProjectFormListener()
         }
     },
-    renderButton: function () {
+    renderAddProjectButton: function () {
         const newProjectButton = document.createElement('button')
         newProjectButton.textContent = 'Add Project'
         newProjectButton.addEventListener('click', () => {
@@ -160,12 +160,12 @@ const projectPage = {
         })
         return newProjectButton
     },
-    getFormData: function () {
+    getProjectFormData: function () {
         const projectData = new FormData(this.projectForm)
         const dataValues = Array.from(projectData.values())
         return {dataValues}
     },
-    validateFormData: function (array){
+    validateProjectFormData: function (array){
         let alerted = false
         for (let i = 0; i < array.length; i++ ) {
             if (array[i] === '' && alerted === false) {
