@@ -44,12 +44,7 @@ const toDoPage = {
     addFormListener: function () {
         this.toDoForm.addEventListener('submit',  (event) => {
             event.preventDefault()
-            if (pages.currentPage === toDoPage) {
-                toDos.createToDo(toDos.toDoArray)
-            }else if (pages.currentPage === projectPage){
-                projects.addToDo()
-                projectPage.renderSingleProject()
-            }
+            toDos.createToDo(toDos.toDoArray)
             this.renderToDos()
         })
         this.formHasListener = true;
