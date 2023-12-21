@@ -30,6 +30,8 @@ const pages = {
 const toDoPage = {
     toDoForm: document.getElementById('to-do-form'),
     toDoModal: document.getElementById('to-do-modal'),
+    toDoEditForm: document.getElementById('to-do-edit-form'),
+    toDoEditModal: document.getElementById('to-do-edit-modal'),
     toDoList: document.createElement('div'),
     formHasListener: false,
     renderButton: function () {
@@ -61,8 +63,8 @@ const toDoPage = {
             this.addFormListener()
         }
     },
-    getFormData: function () {
-        const toDoData = new FormData(this.toDoForm)
+    getFormData: function (form) {
+        const toDoData = new FormData(form)
         const dataValues = Array.from(toDoData.values())
         return {dataValues}
     },
@@ -116,13 +118,15 @@ const toDoPage = {
         const editButton = document.createElement('button')
         editButton.textContent = 'edit'
         editButton.addEventListener('click',() => {
-            this.toDoModal.show()
+            this.toDoEditModal.show()
         })
-        this.toDoForm.addEventListener('submit', () => {
+        this.toDoEditForm.addEventListener('submit', (event) => {
+            event.preventDefault()
             toDos.editToDo()
+            this.toDoEditModal.close()
             this.renderSingleToDo()
         })
-        pages.container.append(JSON.stringify(toDos.currentToDo),editButton)
+        pages.container.append(pages.renderHeader(),JSON.stringify(toDos.currentToDo),editButton)
     }
 }
 

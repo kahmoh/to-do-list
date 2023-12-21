@@ -8,7 +8,7 @@ const toDos = {
         return {title, description, dueDate, priority, dataAttribute}
     },
     createToDo: function (array) {
-        const toDoValues = toDoPage.getFormData().dataValues
+        const toDoValues = toDoPage.getFormData(toDoPage.toDoForm).dataValues
         if (toDoPage.validateFormData(toDoValues)){
             const newToDo = this.toDo(...toDoValues,array.length)
             array.push(newToDo)
@@ -33,7 +33,7 @@ const toDos = {
         }
     },
     editToDo: function () {
-        const toDoValues = toDoPage.getFormData().dataValues
+        const toDoValues = toDoPage.getFormData(toDoPage.toDoEditForm).dataValues
         if (toDoPage.validateFormData(toDoValues)){
             const toDo = this.toDo(...toDoValues,this.currentToDo.dataAttribute)
             this.toDoArray.splice(this.currentToDo.dataAttribute,1,toDo)

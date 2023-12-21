@@ -39,11 +39,14 @@ const projects = {
             array[i].dataAttribute = i
         }
     },
-    deleteToDo: function (index) {
-        this.currentProject.toDos.splice(index,1)
-        this.setDataAttribute(this.currentProject.toDos)
-        this.projectsArray.splice(this.currentProject.dataAttribute,1,this.currentProject)
-        storage.projectStorage.setProjectList(this.projectsArray)
+    editProject: function () {
+        const projectValues = projectPage.getProjectFormData().dataValues
+        if (projectPage.validateProjectFormData(projectValues)){
+            const newProject = this.project(...projectValues,this.projectsArray.length,[])
+            this.projectsArray.splice(this.currentProject.dataAttribute,1,newProject)
+            this.currentProject = this.projectsArray[this.currentProject.dataAttribute]
+            storage.projectStorage.setProjectList(this.projectsArray)
+        }
     }
 }
 
