@@ -39,12 +39,6 @@ const projects = {
             storage.projectStorage.setProjectList(this.projectsArray)
         }
     },
-    addToDo: function () {
-        const currentProjectArray = this.currentProject.toDos
-        toDos.createToDo(currentProjectArray)
-        this.projectsArray.splice(projects.currentProject,1)
-        storage.projectStorage.setProjectList(this.projectsArray)
-    },
     setDataAttribute: function (array) {
         for (let i = 0; i < array.length; i++){
             array[i].dataAttribute = i
