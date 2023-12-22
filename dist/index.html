@@ -51,6 +51,34 @@
             <button type="submit" name="project-submit">Confirm</button>
         </form>
     </dialog>
+<dialog id="project-to-do-modal">
+    <form id="project-to-do-form">
+        <p>Edit ToDo</p>
+        <input type="text" placeholder="title" name="to-do-title">
+        <input type="text" placeholder="description" name="to-do-description">
+        <input type="date" placeholder="due-date" name="to-do-due-date">
+        <select name="to-do-priority">
+            <option value="high">high</option>
+            <option value="medium">medium</option>
+            <option value="low">low</option>
+        </select>
+        <button type="submit" name="to-do-submit">Confirm</button>
+    </form>
+</dialog>
+<dialog id="project-edit-modal">
+    <form id="project-edit-form">
+        <p>Add project</p>
+        <input type="text" placeholder="title" name="project-title">
+        <input type="text" placeholder="description" name="project-description">
+        <input type="date" placeholder="due-date" name="project-due-date">
+        <select name="project-priority">
+            <option value="high">high</option>
+            <option value="medium">medium</option>
+            <option value="low">low</option>
+        </select>
+        <button type="submit" name="project-submit">Confirm</button>
+    </form>
+</dialog>
 </div>
 </div>
 <script src="./main.js"></script>

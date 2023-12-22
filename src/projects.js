@@ -1,15 +1,18 @@
-import {pages, projectPage} from "./dom";
+import {pages, projectPage, toDoPage} from "./dom";
 import {storage} from "./storage";
 import {toDos} from "./toDos";
 
 const projects = {
     currentProject: null,
     projectsArray: (storage.projectStorage.getProjectList() || []),
+    toDo: (title, description, dueDate, priority, dataAttribute) => {
+        return {title, description, dueDate, priority, dataAttribute}
+    },
     project: (title,description,dueDate,priority,dataAttribute,toDos) => {
         return {title,description,dueDate,priority,dataAttribute,toDos}
     },
     createProject: function () {
-        const projectValues = projectPage.getProjectFormData().dataValues
+        const projectValues = projectPage.getFormData(projectPage.projectToDoForm).dataValues
         if (projectPage.validateProjectFormData(projectValues)){
             const newProject = this.project(...projectValues,this.projectsArray.length,[])
             this.projectsArray.push(newProject)
@@ -26,6 +29,14 @@ const projects = {
                 this.currentProject = this.projectsArray[i]
                 projectPage.renderSingleProject()
             }
+        }
+    },
+    createProjectToDo: function (array) {
+        const toDoValues = projectPage.getFormData(projectPage.projectToDoForm).dataValues
+        if (toDoPage.validateFormData(toDoValues)){
+            const newToDo = this.toDo(...toDoValues,this.currentProject.toDos.length)
+            this.currentProject.toDos.push(newToDo)
+            storage.projectStorage.setProjectList(this.projectsArray)
         }
     },
     addToDo: function () {

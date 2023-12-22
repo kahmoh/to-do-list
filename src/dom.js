@@ -133,8 +133,11 @@ const toDoPage = {
 const projectPage = {
     projectModal: document.getElementById('project-modal'),
     projectForm: document.getElementById('project-form'),
+    projectToDoModal: document.getElementById('project-to-do-modal'),
+    projectToDoForm: document.getElementById('project-to-do-form'),
     projectList: document.createElement('div'),
     projectFormHasListener: false,
+    projectToDoFormHasListener: false,
     addProjectFormListener: function () {
         this.projectForm.addEventListener('submit', (event) => {
             event.preventDefault()
@@ -142,6 +145,14 @@ const projectPage = {
             this.renderProjects()
         })
         this.projectFormHasListener = true;
+    },
+    addProjectToDoFormListener: function () {
+        this.projectToDoForm.addEventListener('submit', (event) => {
+            event.preventDefault()
+            projects.createProjectToDo(...projects.currentProject.toDos)
+            this.projectToDoModal.close()
+            this.renderSingleProject()
+        })
     },
     renderProjectPage: function () {
         if (projectPage.projectModal.open){
@@ -155,6 +166,9 @@ const projectPage = {
         if (!this.projectFormHasListener){
             this.addProjectFormListener()
         }
+        if (!this.projectToDoFormHasListener){
+            this.addProjectToDoFormListener()
+        }
     },
     renderAddProjectButton: function () {
         const newProjectButton = document.createElement('button')
@@ -164,8 +178,8 @@ const projectPage = {
         })
         return newProjectButton
     },
-    getProjectFormData: function () {
-        const projectData = new FormData(this.projectForm)
+    getFormData: function (form) {
+        const projectData = new FormData(form)
         const dataValues = Array.from(projectData.values())
         return {dataValues}
     },
@@ -218,7 +232,7 @@ const projectPage = {
         const addToDoButton = document.createElement('btn')
         addToDoButton.textContent = 'Add to-do'
         addToDoButton.addEventListener('click', () => {
-            toDoPage.toDoModal.show()
+            this.projectToDoModal.show()
         })
         const toDoContainer = document.createElement('ul')
         currentProject.toDos.forEach((toDo) => {
