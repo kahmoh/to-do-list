@@ -218,7 +218,10 @@ const projectPage = {
                 this.renderProjects()
             })
             project.addEventListener('click', (event) => {
-                projects.setCurrentProject(project.id)
+                if (event.target.tagName !== 'BUTTON'){
+                    projects.setCurrentProject(project.id)
+                    this.renderSingleProject()
+                }
             })
             project.append(title,projectDetails,deleteButton)
             project.classList.add('to-do')

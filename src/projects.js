@@ -22,12 +22,12 @@ const projects = {
     deleteProject: function (index) {
         this.projectsArray.splice(index,1)
         storage.projectStorage.setProjectList(this.projectsArray)
+        this.setDataAttribute(this.projectsArray)
     },
     setCurrentProject: function (projectId) {
         for (let i = 0; i < projects.projectsArray.length; i++){
             if (projectId == projects.projectsArray[i].dataAttribute){
                 this.currentProject = this.projectsArray[i]
-                projectPage.renderSingleProject()
             }
         }
     },
@@ -45,7 +45,7 @@ const projects = {
         }
     },
     editProject: function () {
-        const projectValues = projectPage.getProjectFormData().dataValues
+        const projectValues = projectPage.getFormData().dataValues
         if (projectPage.validateProjectFormData(projectValues)){
             const newProject = this.project(...projectValues,this.projectsArray.length,[])
             this.projectsArray.splice(this.currentProject.dataAttribute,1,newProject)
