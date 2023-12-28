@@ -103,8 +103,10 @@ const toDoPage = {
                 storage.toDoStorage.setToDoList(this.toDoArray)
                 this.renderToDos()
             })
-            toDo.addEventListener('click', () => {
-                toDos.setCurrentToDo(toDo.id)
+            toDo.addEventListener('click', (event) => {
+                if (event.target.tagName !== 'BUTTON'){
+                    toDos.setCurrentToDo(toDo.id)
+                }
             })
             toDoDetails.append(dueDate,priority,deleteButton)
             toDo.append(titleSection,toDoDetails)
