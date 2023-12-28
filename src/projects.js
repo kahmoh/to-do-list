@@ -12,7 +12,7 @@ const projects = {
         return {title,description,dueDate,priority,dataAttribute,toDos}
     },
     createProject: function () {
-        const projectValues = projectPage.getFormData(projectPage.projectToDoForm).dataValues
+        const projectValues = projectPage.getFormData(projectPage.projectForm).dataValues
         if (projectPage.validateProjectFormData(projectValues)){
             const newProject = this.project(...projectValues,this.projectsArray.length,[])
             this.projectsArray.push(newProject)
