@@ -232,6 +232,7 @@ const projectPage = {
     },
     renderSingleProject: function () {
         pages.container.innerHTML = ''
+        pages.container.append(pages.renderHeader())
         const currentProject = projects.currentProject
         const projectElement = document.createElement('div')
         const addToDoButton = document.createElement('btn')
@@ -248,7 +249,7 @@ const projectPage = {
             deleteButton.textContent = 'delete'
             deleteButton.setAttribute('id',toDo.dataAttribute)
             deleteButton.addEventListener('click', () => {
-                projects.deleteToDo(deleteButton.id)
+                projects.deleteProjectToDo(deleteButton.id,projects.currentProject.toDos)
                 this.renderSingleProject()
             })
             toDoElement.appendChild(deleteButton)

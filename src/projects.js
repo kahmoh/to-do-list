@@ -21,8 +21,7 @@ const projects = {
     },
     deleteProject: function (index) {
         this.projectsArray.splice(index,1)
-        storage.projectStorage.setProjectList(this.projectsArray)
-        this.setDataAttribute(this.projectsArray)
+        this.updateProjectList()
     },
     setCurrentProject: function (projectId) {
         for (let i = 0; i < projects.projectsArray.length; i++){
@@ -30,6 +29,14 @@ const projects = {
                 this.currentProject = this.projectsArray[i]
             }
         }
+    },
+    updateProjectList: function () {
+        storage.projectStorage.setProjectList(this.projectsArray)
+        this.setDataAttribute(this.projectsArray)
+    },
+    updateCurrenProject: function () {
+        this.updateProjectList()
+        this.currentProject = this.projectsArray[this.currentProject.dataAttribute]
     },
     createProjectToDo: function (array) {
         const toDoValues = projectPage.getFormData(projectPage.projectToDoForm).dataValues
@@ -52,7 +59,12 @@ const projects = {
             this.currentProject = this.projectsArray[this.currentProject.dataAttribute]
             storage.projectStorage.setProjectList(this.projectsArray)
         }
-    }
+    },
+    deleteProjectToDo: function (index,array) {
+        array.splice(index,1)
+        this.setDataAttribute(this.currentProject.toDos)
+        this.updateCurrenProject()
+    },
 }
 
 export {projects}
