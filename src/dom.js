@@ -155,6 +155,7 @@ const projectPage = {
             this.projectToDoModal.close()
             this.renderSingleProject()
         })
+        this.projectToDoFormHasListener = true;
     },
     renderProjectPage: function () {
         if (projectPage.projectModal.open){
