@@ -137,9 +137,12 @@ const projectPage = {
     projectForm: document.getElementById('project-form'),
     projectToDoModal: document.getElementById('project-to-do-modal'),
     projectToDoForm: document.getElementById('project-to-do-form'),
+    projectEditModal: document.getElementById('project-edit-modal'),
+    projectEditForm: document.getElementById('project-edit-form'),
     projectList: document.createElement('div'),
     projectFormHasListener: false,
     projectToDoFormHasListener: false,
+    projectEditFormHasListener: false,
     addProjectFormListener: function () {
         this.projectForm.addEventListener('submit', (event) => {
             event.preventDefault()
@@ -157,6 +160,15 @@ const projectPage = {
         })
         this.projectToDoFormHasListener = true;
     },
+    addProjectEditFormListener: function () {
+        this.projectEditForm.addEventListener('submit', (event) => {
+            event.preventDefault()
+            projects.editProject()
+            this.projectEditModal.close()
+            this.renderSingleProject()
+        })
+        this.projectEditFormHasListener = true;
+    },
     renderProjectPage: function () {
         if (projectPage.projectModal.open){
             projectPage.projectModal.close()
@@ -171,6 +183,9 @@ const projectPage = {
         }
         if (!this.projectToDoFormHasListener){
             this.addProjectToDoFormListener()
+        }
+        if (!this.projectEditFormHasListener){
+            this.addProjectEditFormListener()
         }
     },
     renderAddProjectButton: function () {
@@ -241,6 +256,11 @@ const projectPage = {
         addToDoButton.addEventListener('click', () => {
             this.projectToDoModal.show()
         })
+        const editButton = document.createElement('button')
+        editButton.textContent = 'edit'
+        editButton.addEventListener('click', () => {
+            this.projectEditModal.show()
+        })
         const toDoContainer = document.createElement('ul')
         currentProject.toDos.forEach((toDo) => {
             const toDoElement  = document.createElement('div')
@@ -257,7 +277,7 @@ const projectPage = {
             toDoContainer.append(toDoElement)
         })
         projectElement.append(
-            currentProject.title,currentProject.dueDate,currentProject.priority,addToDoButton,toDoContainer
+            currentProject.title,currentProject.dueDate,currentProject.priority,addToDoButton,editButton,toDoContainer
         )
         pages.container.appendChild(projectElement)
     }

@@ -52,10 +52,11 @@ const projects = {
         }
     },
     editProject: function () {
-        const projectValues = projectPage.getFormData().dataValues
+        const projectValues = projectPage.getFormData(projectPage.projectEditForm).dataValues
         if (projectPage.validateProjectFormData(projectValues)){
-            const newProject = this.project(...projectValues,this.projectsArray.length,[])
+            const newProject = this.project(...projectValues,this.currentProject.dataAttribute,this.currentProject.toDos)
             this.projectsArray.splice(this.currentProject.dataAttribute,1,newProject)
+            this.setDataAttribute(this.currentProject.toDos)
             this.currentProject = this.projectsArray[this.currentProject.dataAttribute]
             storage.projectStorage.setProjectList(this.projectsArray)
         }
