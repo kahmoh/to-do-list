@@ -4,6 +4,7 @@ import {toDos} from "./toDos";
 
 const projects = {
     currentProject: null,
+    currentToDo: null,
     projectsArray: (storage.projectStorage.getProjectList() || []),
     toDo: (title, description, dueDate, priority, dataAttribute) => {
         return {title, description, dueDate, priority, dataAttribute}
@@ -29,6 +30,9 @@ const projects = {
                 this.currentProject = this.projectsArray[i]
             }
         }
+    },
+    setCurrentToDo: function (toDoId) {
+        this.currentToDo = this.currentProject.toDos[toDoId]
     },
     updateProjectList: function () {
         storage.projectStorage.setProjectList(this.projectsArray)
@@ -66,6 +70,26 @@ const projects = {
         this.setDataAttribute(this.currentProject.toDos)
         this.updateCurrenProject()
     },
+    editProjectToDo: function () {
+        const toDoValues = projectPage.getFormData(projectPage.projectToDoEditForm).dataValues
+        if (projectPage.validateProjectFormData(toDoValues)){
+            const newToDo = this.toDo(...toDoValues,this.currentToDo.dataAttribute)
+            const toDoArray = this.currentProject.toDos
+            toDoArray.splice(this.currentToDo.dataAttribute,1,newToDo)
+            const newProject = this.project(
+                this.currentProject.title,
+                this.currentProject.description,
+                this.currentProject.dueDate,
+                this.currentProject.priority,
+                this.currentProject.dataAttribute,
+                toDoArray)
+            console.log(newProject)
+            this.projectsArray.splice(this.currentProject.dataAttribute,1,newProject)
+            this.currentToDo = null;
+            projectPage.renderSingleProject()
+            storage.projectStorage.setProjectList(this.projectsArray)
+        }
+    }
 }
 
 export {projects}

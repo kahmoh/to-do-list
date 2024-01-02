@@ -139,10 +139,13 @@ const projectPage = {
     projectToDoForm: document.getElementById('project-to-do-form'),
     projectEditModal: document.getElementById('project-edit-modal'),
     projectEditForm: document.getElementById('project-edit-form'),
+    projectToDoEditModal: document.getElementById('project-to-do-edit-modal'),
+    projectToDoEditForm: document.getElementById('project-to-do-edit-form'),
     projectList: document.createElement('div'),
     projectFormHasListener: false,
     projectToDoFormHasListener: false,
     projectEditFormHasListener: false,
+    projectToDoEditFormHasListener: false,
     addProjectFormListener: function () {
         this.projectForm.addEventListener('submit', (event) => {
             event.preventDefault()
@@ -169,6 +172,13 @@ const projectPage = {
         })
         this.projectEditFormHasListener = true;
     },
+    addProjectToDoEditFormListener: function () {
+          this.projectToDoEditForm.addEventListener('submit', (event) => {
+              event.preventDefault()
+              projects.editProjectToDo()
+              this.projectToDoEditModal.close()
+          })
+    },
     renderProjectPage: function () {
         if (projectPage.projectModal.open){
             projectPage.projectModal.close()
@@ -187,6 +197,7 @@ const projectPage = {
         if (!this.projectEditFormHasListener){
             this.addProjectEditFormListener()
         }
+        this.addProjectToDoEditFormListener()
     },
     renderAddProjectButton: function () {
         const newProjectButton = document.createElement('button')
@@ -266,6 +277,13 @@ const projectPage = {
             const toDoElement  = document.createElement('div')
             toDoElement.id = toDo.dataAttribute
             toDoElement.textContent = JSON.stringify(toDo)
+            const editButton = document.createElement('button')
+            editButton.textContent = 'edit'
+            editButton.setAttribute('id',toDo.dataAttribute)
+            editButton.addEventListener('click', () => {
+                projects.setCurrentToDo(editButton.id)
+                this.projectToDoEditModal.show()
+            })
             const deleteButton = document.createElement('button')
             deleteButton.textContent = 'delete'
             deleteButton.setAttribute('id',toDo.dataAttribute)
@@ -273,7 +291,7 @@ const projectPage = {
                 projects.deleteProjectToDo(deleteButton.id,projects.currentProject.toDos)
                 this.renderSingleProject()
             })
-            toDoElement.appendChild(deleteButton)
+            toDoElement.append(editButton,deleteButton)
             toDoContainer.append(toDoElement)
         })
         projectElement.append(
