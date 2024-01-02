@@ -22,6 +22,14 @@ const pages = {
         headerContainer.append(toDoPageLink,projectPageLink)
         return headerContainer
     },
+    renderFormExitButton: function (modal,form) {
+        const exitButton = document.createElement('btn')
+        exitButton.textContent = 'x'
+        exitButton.addEventListener('click', () => {
+            modal.close()
+        })
+        form.append(exitButton)
+    },
     initialPageLoad: function () {
         toDoPage.renderPage()
     },
@@ -51,6 +59,10 @@ const toDoPage = {
         })
         this.formHasListener = true;
     },
+    renderFormExitButtons: function () {
+        pages.renderFormExitButton(this.toDoModal,this.toDoForm)
+        pages.renderFormExitButton(this.toDoEditModal,this.toDoEditForm)
+    },
     renderPage: function () {
         if (projectPage.projectModal.open){
             projectPage.projectModal.close()
@@ -62,6 +74,7 @@ const toDoPage = {
         if (!this.formHasListener){
             this.addFormListener()
         }
+        this.renderFormExitButtons()
     },
     getFormData: function (form) {
         const toDoData = new FormData(form)
@@ -179,6 +192,12 @@ const projectPage = {
               this.projectToDoEditModal.close()
           })
     },
+    renderFormExitButtons: function () {
+        pages.renderFormExitButton(this.projectModal,this.projectForm)
+        pages.renderFormExitButton(this.projectEditModal,this.projectEditForm)
+        pages.renderFormExitButton(this.projectToDoModal,this.projectToDoForm)
+        pages.renderFormExitButton(this.projectToDoEditModal,this.projectToDoEditForm)
+    },
     renderProjectPage: function () {
         if (projectPage.projectModal.open){
             projectPage.projectModal.close()
@@ -198,6 +217,7 @@ const projectPage = {
             this.addProjectEditFormListener()
         }
         this.addProjectToDoEditFormListener()
+        this.renderFormExitButtons()
     },
     renderAddProjectButton: function () {
         const newProjectButton = document.createElement('button')
