@@ -22,13 +22,17 @@ const pages = {
         headerContainer.append(toDoPageLink,projectPageLink)
         return headerContainer
     },
+    formsWithExitButton: [],
     renderFormExitButton: function (modal,form) {
-        const exitButton = document.createElement('btn')
-        exitButton.textContent = 'x'
-        exitButton.addEventListener('click', () => {
-            modal.close()
-        })
-        form.append(exitButton)
+        if (!this.formsWithExitButton.includes(form.id)){
+            const exitButton = document.createElement('btn')
+            exitButton.textContent = 'x'
+            exitButton.addEventListener('click', () => {
+                modal.close()
+            })
+            form.append(exitButton)
+        }
+        this.formsWithExitButton.push(form.id)
     },
     initialPageLoad: function () {
         toDoPage.renderPage()
